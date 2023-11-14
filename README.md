@@ -1,39 +1,18 @@
-# Compra Service
+# Estoque Service
 ## Descrição 
- > Serviço para realização de compras do ecommerce
+ > Serviço adicionar, consultar e reservar itens
  
 
 ## Endpoints: 
-  ### Realizar Compra
-    URL: /
+  ### Adicionar itens
+    URL: /add
     Método: POST
   #### Request
 
 ``` json
 {
-  "cliente": {
-    "id": "cb7961ec-7de5-11ee-b962-0242ac120002"
-  },
-  "endereco": {
-    "complemento": "complemento",
-    "numero": "12",
-    "cep": "0000000000",
-    "rua": "rua",
-    "bairro": "bairro",
-    "cidade": "cidade",
-    "estado": "es"
-  },
-  "data-compra": "2023-11-09T00:42:11.623Z",
-  "carrinho-id": "cb79646c-7de5-11ee-b962-0242ac120002",
-  "formas-pagamento": [
-    {
-      "metodo": "Debito",
-      "cvv": "000",
-      "valor": 80.1,
-      "numero-cartao": "123456xxx",
-      "nome-cartao": "Joao Silva"
-    }
-  ]
+  "skuId": "9877",
+  "quantidade": 340
 }
 ```
 #### Responses
@@ -41,14 +20,71 @@
 
 ``` json
 {
-  "id": 46487989
+  "skuId": "9877",
+  "quantidade": 340
 }
 ```
 
-#### 400
+#### 404
 
 ``` json
 {
-  "message": "error message"
+  "statusResponse": 400,
+  "message": "Não foi possível encontrar o 9877 para o identificador informado Item "
+}
+```
+
+### Reservar itens
+    URL: /
+    Método: POST
+#### Request
+
+``` json
+{
+  "skuId": "9877",
+  "quantidade": 340
+}
+```
+#### Responses
+#### 201
+
+``` json
+{
+  "idReserva": "string",
+  "itemsReservados": [
+    "string"
+  ]
+}
+```
+
+### Consultar item
+    URL: /query/{sku}
+    Método: POST
+#### Request
+
+```
+/query/{sku}
+```
+
+Example:
+```
+/query/9877
+```
+#### Responses
+#### 200
+
+``` json
+{
+  "skuId": "9877",
+  "quantidade": 340
+}
+```
+
+#### 404
+
+``` json
+{
+  "statusResponse": 400,
+  "message": "Não foi possível encontrar o 9877 para o identificador informado Item "
 }
 ```
