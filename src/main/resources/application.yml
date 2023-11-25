@@ -30,6 +30,11 @@ spring:
   liquibase:
     enabled: false
     change-log: classpath:db/changelog/changelog-local.xml
+  cache:
+    type: redis
+    redis:
+      host: localhost
+      port: 6379
 
   rabbitmq:
     host: 127.0.0.1
