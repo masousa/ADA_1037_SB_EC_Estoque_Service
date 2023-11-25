@@ -17,16 +17,22 @@ import java.util.UUID;
 public class AdicionarProdutoService {
     private final ItemRepository itemRepository;
     public ItemResponse execute(ItemRequest itemRequest){
-        Item item = new Item();
-        item.setSku(itemRequest.getSkuId());
-        item.setQuantidadeEstoque(itemRequest.getQuantidade());
-        item.setValorUnitario(BigDecimal.ZERO);
-        item.setIdentificador(UUID.randomUUID().toString());
+        Item item = itemRepository.findBySku(itemRequest.getSkuId()).orElse(createEmptyItem(itemRequest));
+        item.setQuantidadeEstoque(item.getQuantidadeEstoque()+itemRequest.getQuantidade());
         itemRepository.save(item);
 
         ItemResponse itemResponse = new ItemResponse();
         itemResponse.setQuantidade(itemRequest.getQuantidade());
         itemResponse.setSkuId(itemRequest.getSkuId());
         return itemResponse;
+    }
+
+    private Item createEmptyItem(ItemRequest itemRequest) {
+        Item item = new Item();
+        item.setSku(itemRequest.getSkuId());
+        item.setQuantidadeEstoque(0);
+        item.setValorUnitario(BigDecimal.ZERO);
+        item.setIdentificador(UUID.randomUUID().toString());
+        return item;
     }
 }
