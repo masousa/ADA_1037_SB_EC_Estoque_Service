@@ -2,6 +2,7 @@ package tech.ada.tenthirty.ecommerce.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import tech.ada.tenthirty.ecommerce.model.Item;
 import tech.ada.tenthirty.ecommerce.payload.ItemRequest;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Slf4j
 public class AdicionarProdutoService {
     private final ItemRepository itemRepository;
+    @CacheEvict(cacheNames = "cQuantidadeEstoque", allEntries = true)
     public ItemResponse execute(ItemRequest itemRequest){
         Item item = new Item();
         item.setSku(itemRequest.getSkuId());
